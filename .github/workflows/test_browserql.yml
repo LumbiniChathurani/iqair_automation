@@ -1,0 +1,28 @@
+name: Test IQAir with BrowserQL
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-iqair:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run BrowserQL test
+        env:
+          BROWSERLESS_TOKEN: ${{ secrets.BROWSERLESS_TOKEN }}
+        run: |
+          python test_browserql.py
